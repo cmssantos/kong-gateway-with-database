@@ -1,0 +1,27 @@
+version: '3.7'
+
+services:
+  
+  #######################################
+  # Postgres: The database used by Kong
+  #######################################
+  kong-database:
+    build:
+      context: postgres
+    container_name: kong-database
+    
+  #######################################
+  # Kong database migration
+  #######################################
+  kong-migrations:
+    image: kong/kong-gateway:3.0.0.0-alpine
+    container_name: kong-migrations
+    depends_on:
+    - kong-database
+  
+  #######################################
+  # Kong: The API Gateway
+  #######################################
+  kong:
+    image: kong/kong-gateway:3.0.0.0-alpine
+    container_name: kong
